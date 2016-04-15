@@ -1,2 +1,4 @@
+org\hibernate\envers\QDefaultRevisionEntity.class
+com\example\model\Message$1.class
 com\example\model\QMessage.class
 com\example\model\QLanguage.class

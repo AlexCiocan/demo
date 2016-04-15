@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository;
 import com.example.model.Language;
 
 @RepositoryRestResource
-@Repository
 public interface LanguageRepository extends PagingAndSortingRepository<Language, Long>,QueryDslPredicateExecutor<Language>{
 
 }

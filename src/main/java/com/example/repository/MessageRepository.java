@@ -3,18 +3,24 @@ package com.example.repository;
 import java.util.List;
 
 import org.springframework.data.querydsl.QueryDslPredicateExecutor;
+import org.springframework.data.querydsl.binding.QuerydslPredicate;
 import org.springframework.data.repository.PagingAndSortingRepository;
-import org.springframework.data.repository.history.RevisionRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.rest.core.annotation.RestResource;
 
 import com.example.model.Message;
+import com.mysema.query.types.Predicate;
 
 @RepositoryRestResource
-@Repository
-public interface MessageRepository extends PagingAndSortingRepository<Message, Long>,QueryDslPredicateExecutor<Message>
-//,RevisionRepository<Message,Long,Integer>
-{
-	public List<Message> findByMessage(@Param("message")String message);
+@QuerydslPredicate(bindings=Message.class)
+public interface MessageRepository extends PagingAndSortingRepository<Message, Long>,
+		QueryDslPredicateExecutor<Message> {
+	 List<Message> findByMessage(@Param("message") String message);
+	
+	 
+	 @RestResource
+	 Iterable<Message> findAll(@QuerydslPredicate(bindings=Message.class) Predicate predicate);
+
+
 }
