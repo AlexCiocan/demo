@@ -12,7 +12,13 @@ import org.springframework.data.querydsl.binding.QuerydslBindings;
 import org.springframework.data.querydsl.binding.QuerydslPredicate;
 import org.springframework.data.querydsl.binding.SingleValueBinding;
 
+import com.mysema.query.support.Expressions;
+import com.mysema.query.types.Ops;
 import com.mysema.query.types.Predicate;
+import com.mysema.query.types.expr.BooleanExpression;
+import com.mysema.query.types.expr.CaseBuilder;
+import com.mysema.query.types.expr.StringExpression;
+import com.mysema.query.types.expr.StringExpressions;
 import com.mysema.query.types.path.StringPath;
 
 @Entity
@@ -80,8 +86,9 @@ public class Message implements Serializable, QuerydslBinderCustomizer<QMessage>
 	public void customize(QuerydslBindings bindings, QMessage root) {
 		bindings.bind(String.class).first(new SingleValueBinding<StringPath, String>() {
 			@Override
-			public Predicate bind(StringPath path, String value) {
-				return path.startsWith(value);
+			public Predicate bind(StringPath path, String regex) {
+				return Expressions.predicate(Ops.STRING_CONTAINS_IC, Expressions.constant(regex), path).or(path.matches(regex));
+						//.or(Expressions.predicate(Ops.EQ, Expressions.constant(value)));
 			}
 		});
 		

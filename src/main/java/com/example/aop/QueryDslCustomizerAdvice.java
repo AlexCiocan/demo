@@ -31,6 +31,7 @@ public class QueryDslCustomizerAdvice {
 				final String name = cls.getSimpleName();
 				if (domainType.getType().getSimpleName().equals(name)) {
 					repo = repositories.getRepositoryFor(cls);
+					break;
 				}
 
 			}
